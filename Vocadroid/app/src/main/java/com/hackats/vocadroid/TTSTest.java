@@ -7,7 +7,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import java.io.File;
+import java.util.HashMap;
 import java.util.Locale;
 
 public class TTSTest extends AppCompatActivity {
@@ -29,8 +30,17 @@ public class TTSTest extends AppCompatActivity {
         findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String text = ((TextView) findViewById(R.id.editText)).getText().toString();
-                tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);
+                try {
+                    String text = ((TextView) findViewById(R.id.editText)).getText().toString();
+                    HashMap<String, String> hashRender = new HashMap<>();
+                    hashRender.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, text);
+                    File tempFile = new File(getFilesDir(), "temp.wav");
+                    tempFile.delete();
+                    tts.synthesizeToFile(text, hashRender, getFilesDir() + "/temp.wav");
+                    
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
