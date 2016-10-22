@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Vocadroid.iml" filepath="$PROJECT_DIR$/Vocadroid.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/libPulseSDK/libPulseSDK.iml" filepath="$PROJECT_DIR$/libPulseSDK/libPulseSDK.iml" />
     </modules>
   </component>
 </project>
