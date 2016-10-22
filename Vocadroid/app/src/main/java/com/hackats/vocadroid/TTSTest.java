@@ -1,7 +1,11 @@
 package com.hackats.vocadroid;
 
 import android.content.Context;
+import android.media.MediaPlayer;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.speech.tts.TextToSpeech;
+import android.speech.tts.UtteranceProgressListener;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -31,17 +35,38 @@ public class TTSTest extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 try {
-                    String text = ((TextView) findViewById(R.id.editText)).getText().toString();
+                    final String text = ((TextView) findViewById(R.id.editText)).getText().toString();
                     HashMap<String, String> hashRender = new HashMap<>();
                     hashRender.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, text);
-                    File tempFile = new File(getFilesDir(), "temp.wav");
+                    File tempFile = new File(getFilesDir(), text + ".wav");
                     tempFile.delete();
-                    tts.synthesizeToFile(text, hashRender, getFilesDir() + "/temp.wav");
-                    
+                    tts.synthesizeToFile(text, hashRender, getFilesDir() + "/" + text + ".wav");
+                    tts.setOnUtteranceProgressListener(new UtteranceProgressListener() {
+                        @Override
+                        public void onStart(String utteranceId) {
+
+                        }
+
+                        @Override
+                        public void onDone(String utteranceId) {
+                            if (utteranceId.equals(text)) {
+                                File toPlay = new File(getFilesDir(), text + ".wav");
+                                MediaPlayer player = MediaPlayer.create(thisContext, Uri.fromFile(toPlay));
+                                player.start();
+                            }
+                        }
+
+                        @Override
+                        public void onError(String utteranceId) {
+
+                        }
+                    });
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
+
         });
     }
 }
