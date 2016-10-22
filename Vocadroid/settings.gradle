@@ -1,1 +1,1 @@
-include ':app', ':libPulseSDK'
+include ':app', ':libPulseSDK', ':sdk'
