@@ -101,7 +101,9 @@ public class MainActivity extends AppCompatActivity {
                 Canvas canvas = new Canvas(newBitmap);
                 Rect src = new Rect(0, 0, original.getWidth(), original.getHeight());
                 Rect dest = new Rect(0, 0, newBitmap.getWidth(), newBitmap.getHeight());
-                canvas.drawBitmap(original, src, dest, null);
+                Paint paint = new Paint();
+                paint.setFilterBitmap(true);
+                canvas.drawBitmap(original, src, dest, paint);
                 ((ImageView) findViewById(R.id.imageView2)).setImageBitmap(newBitmap);
                 for (int i = 0; i < 99; i++) {
                     int x = i % 11;
