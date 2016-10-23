@@ -92,30 +92,25 @@ public class MainActivity extends AppCompatActivity {
                 pulseHander.ConnectMasterDevice(thisContext);
             }
         });
-        findViewById(R.id.button2).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                PulseColor[] pixes = new PulseColor[99];
-                Bitmap original = BitmapFactory.decodeResource(getResources(), R.drawable.mario);
-                Bitmap newBitmap = Bitmap.createBitmap(11, 9, Bitmap.Config.ARGB_8888);
-                Canvas canvas = new Canvas(newBitmap);
-                Rect src = new Rect(0, 0, original.getWidth(), original.getHeight());
-                Rect dest = new Rect(0, 0, newBitmap.getWidth(), newBitmap.getHeight());
-                Paint paint = new Paint();
-                paint.setFilterBitmap(true);
-                canvas.drawBitmap(original, src, dest, paint);
-                ((ImageView) findViewById(R.id.imageView2)).setImageBitmap(newBitmap);
-                for (int i = 0; i < 99; i++) {
-                    int x = i % 11;
-                    int y = i / 11;
-                    int current = newBitmap.getPixel(x, y);
-                    pixes[i] = new PulseColor((byte) ((current >> 16) & 0xFF),
-                            (byte) ((current >> 8) & 0xFF),
-                            (byte) (current & 0xFF));
-                }
-                pulseHander.SetColorImage(pixes);
-
-            }
-        });
+    }
+    public void modifyBitmap(Bitmap original){
+        PulseColor[] pixes = new PulseColor[99];
+        Bitmap newBitmap = Bitmap.createBitmap(11, 9, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(newBitmap);
+        Rect src = new Rect(0, 0, original.getWidth(), original.getHeight());
+        Rect dest = new Rect(0, 0, newBitmap.getWidth(), newBitmap.getHeight());
+        Paint paint = new Paint();
+        paint.setFilterBitmap(true);
+        canvas.drawBitmap(original, src, dest, paint);
+        ((ImageView) findViewById(R.id.imageView2)).setImageBitmap(newBitmap);
+        for (int i = 0; i < 99; i++) {
+            int x = i % 11;
+            int y = i / 11;
+            int current = newBitmap.getPixel(x, y);
+            pixes[i] = new PulseColor((byte)  ((current >> 16) & 0xFF),
+                    (byte) ((current >> 8) & 0xFF),
+                    (byte) (current & 0xFF));
+        }
+        pulseHander.SetColorImage(pixes);
     }
 }
