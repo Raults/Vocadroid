@@ -18,6 +18,7 @@ import java.util.Locale;
 public class TTSTest extends AppCompatActivity {
     Context thisContext = this;
     TextToSpeech tts;
+    HashMap<String, Data> dataMap = new HashMap<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,39 +35,9 @@ public class TTSTest extends AppCompatActivity {
         findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
-                    final String text = ((TextView) findViewById(R.id.editText)).getText().toString();
-                    HashMap<String, String> hashRender = new HashMap<>();
-                    hashRender.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, text);
-                    File tempFile = new File(getFilesDir(), text + ".wav");
-                    tempFile.delete();
-                    tts.synthesizeToFile(text, hashRender, getFilesDir() + "/" + text + ".wav");
-                    tts.setOnUtteranceProgressListener(new UtteranceProgressListener() {
-                        @Override
-                        public void onStart(String utteranceId) {
-
-                        }
-
-                        @Override
-                        public void onDone(String utteranceId) {
-                            if (utteranceId.equals(text)) {
-                                File toPlay = new File(getFilesDir(), text + ".wav");
-                                MediaPlayer player = MediaPlayer.create(thisContext, Uri.fromFile(toPlay));
-                                player.start();
-                            }
-                        }
-
-                        @Override
-                        public void onError(String utteranceId) {
-
-                        }
-                    });
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                final String text = ((TextView) findViewById(R.id.editText)).getText().toString();
+                TextToBytes.generateBytes(getFilesDir().toString(), text, dataMap, tts);
             }
-
         });
     }
 }
